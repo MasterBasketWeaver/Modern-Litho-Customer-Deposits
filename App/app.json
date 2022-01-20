@@ -11,6 +11,12 @@
   "url": "http://www.bamboomcloud.com/",
   "logo": "./Logo/BBClogo.png",
   "dependencies": [
+    {
+      "id": "5452f323-059e-499a-9753-5d2c07eef904",
+      "publisher": "NovaVision Software A/S",
+      "name": "PrintVis",
+      "version": "18.6.0.0"
+    }
   ],
   "screenshots": [],
   "platform": "19.0.0.0",
