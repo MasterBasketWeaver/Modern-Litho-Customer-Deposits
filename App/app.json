@@ -1,0 +1,34 @@
+{
+  "id": "ba09cc93-9991-40e1-a1eb-34837304bed0",
+  "name": "Modern Litho Customer Deposits",
+  "publisher": "Bam Boom Cloud",
+  "version": "19.0.0.0",
+  "brief": "Provides functionality to handle Customer Deposits for Modern Litho.",
+  "description": "Provides functionality to handle Customer Deposits for Modern Litho.",
+  "privacyStatement": "http://www.bamboomcloud.com/",
+  "EULA": "http://www.bamboomcloud.com/",
+  "help": "http://www.bamboomcloud.com/",
+  "url": "http://www.bamboomcloud.com/",
+  "logo": "./Logo/BBClogo.png",
+  "dependencies": [
+  ],
+  "screenshots": [],
+  "platform": "19.0.0.0",
+  "application": "19.0.0.0",
+  "idRanges": [
+    {
+      "from": 50200,
+      "to": 50299
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://bamboomcloud.com/help/",
+  "features": ["TranslationFile"],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "applicationInsightsConnectionString": "InstrumentationKey=d26ca36d-e333-43cd-9de5-1ea5c85f8e39;IngestionEndpoint=https://uksouth-0.in.applicationinsights.azure.com/",
+  "runtime": "8.1",
+  "target": "Cloud"
+}
