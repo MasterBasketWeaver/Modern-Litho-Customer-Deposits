@@ -6,7 +6,7 @@ tableextension 50203 "BBC MLCD Gen. Journal Batch" extends "Gen. Journal Batch"
         {
             DataClassification = CustomerContent;
             Caption = 'Customer Deposit Account No.';
-            TableRelation = "G/L Account"."No." where(Blocked = const(false));
+            TableRelation = "G/L Account"."No." where(Blocked = const(false), "Direct Posting" = const(true));
         }
         field(50201; "BBC MLCD Customer Deposit"; Boolean)
         {

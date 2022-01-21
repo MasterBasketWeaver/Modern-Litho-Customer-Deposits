@@ -1,4 +1,4 @@
-tableextension 50201 "BBC MLCD Cust. Ledger Entry" extends "Cust. Ledger Entry"
+tableextension 50204 "BBC MLCD G/L Entry" extends "G/L Entry"
 {
     fields
     {

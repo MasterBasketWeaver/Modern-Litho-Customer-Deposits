@@ -1,4 +1,4 @@
-pageextension 50201 "BBC MLCD Cust. Ledger Entries" extends "Customer Ledger Entries"
+pageextension 50204 "BBC MLCD Gen. Ledger Entries" extends "General Ledger Entries"
 {
     layout
     {
@@ -13,13 +13,9 @@ pageextension 50201 "BBC MLCD Cust. Ledger Entries" extends "Customer Ledger Ent
             {
                 ApplicationArea = all;
             }
-        }
-        addafter("Customer Name")
-        {
             field("BBC MLCD Customer Deposit"; Rec."BBC MLCD Customer Deposit")
             {
                 ApplicationArea = all;
-                ToolTip = 'Specifies if the entry is a Customer Deposit.';
             }
             field("BBC MLCD PrintVis Case No."; Rec."BBC MLCD PrintVis Case No.")
             {
