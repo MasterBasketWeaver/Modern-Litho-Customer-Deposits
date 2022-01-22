@@ -74,6 +74,7 @@ pageextension 50205 "BBC MLCD Sales Invoice" extends "Sales Invoice"
                     ApplyCustEntries.SetRecord(CustLedgerEntry);
                     ApplyCustEntries.Caption('Applied Invoice Entries');
                     ApplyCustEntries.Editable(false);
+                    ApplyCustEntries.SetAllowDelete();
                     ApplyCustEntries.RunModal();
                 end;
             }
