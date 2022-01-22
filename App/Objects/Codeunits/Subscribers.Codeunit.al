@@ -48,4 +48,66 @@ codeunit 50200 "BBC MLCD Subscribers"
             GLEntry."BBC MLCD Customer Deposit" := GenJnlBatch."BBC MLCD Customer Deposit";
         GLEntry."BBC MLCD PrintVis Case No." := GenJnlLine."BBC MLCD PrintVis Case No.";
     end;
+
+
+
+
+
+
+
+
+
+    // [EventSubscriber(ObjectType::Table, Database::"Gen. Journal Line", 'OnLookUpAppliesToDocCustOnAfterUpdateDocumentTypeAndAppliesTo', '', false, false)]
+    // local procedure GenJnlLineOnLookUpAppliesToDocCustOnAfterUpdateDocumentTypeAndAppliesTo(var GenJournalLine: Record "Gen. Journal Line"; CustLedgerEntry: Record "Cust. Ledger Entry")
+    // var
+    //     SalesHeader: Record "Sales Header";
+    //     AppliedInvoiceEntry: Record "BBC MLCD Applied Invoice Entry";
+    //     LineNo: Integer;
+    // begin
+    //     if not GenJournalLine."BBC MLCD Applied Invoice" or not SalesHeader.Get(GenJournalLine."BBC MLCD Source RecID") then
+    //         exit;
+    //     AppliedInvoiceEntry.SetRange("Document Type", SalesHeader."Document Type");
+    //     AppliedInvoiceEntry.SetRange("Document No.", SalesHeader."No.");
+    //     if AppliedInvoiceEntry.FindLast() then
+    //         LineNo := AppliedInvoiceEntry."Line No.";
+    //     AppliedInvoiceEntry.Init();
+    //     AppliedInvoiceEntry."Document Type" := SalesHeader."Document Type";
+    //     AppliedInvoiceEntry."Document No." := SalesHeader."No.";
+    //     AppliedInvoiceEntry."Line No." := LineNo + 10000;
+    //     AppliedInvoiceEntry."Cust. Ledger Entry No." := CustLedgerEntry."Entry No.";
+    //     AppliedInvoiceEntry.Insert(true);
+    // end;
+
+    [EventSubscriber(ObjectType::Table, Database::"Sales Header", 'OnAfterDeleteEvent', '', false, false)]
+    local procedure SalesHeaderOnAfterDelete(var Rec: Record "Sales Header")
+    var
+        AppliedInvoiceEntry: Record "BBC MLCD Applied Invoice Entry";
+    begin
+        if Rec.IsTemporary() then
+            exit;
+        AppliedInvoiceEntry.SetRange("Document Type", Rec."Document Type");
+        AppliedInvoiceEntry.SetRange("Document No.", Rec."No.");
+        AppliedInvoiceEntry.DeleteAll(true);
+    end;
+
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", 'OnAfterPostSalesLines', '', false, false)]
+    local procedure SalesPostOnAfterPostSalesLines(var SalesHeader: Record "Sales Header"; var SalesInvoiceHeader: Record "Sales Invoice Header")
+    var
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+        AppliedInvoiceEntry: Record "BBC MLCD Applied Invoice Entry";
+        CustEntryApply: Codeunit "CustEntry-Apply Posted Entries";
+    begin
+        if not SalesHeader.Invoice or (SalesInvoiceHeader."No." = '') then
+            exit;
+        AppliedInvoiceEntry.SetRange("Document Type", SalesHeader."Document Type");
+        AppliedInvoiceEntry.SetRange("Document No.", SalesHeader."No.");
+        if not AppliedInvoiceEntry.FindSet() then
+            exit;
+        repeat
+            CustLedgerEntry.Get(AppliedInvoiceEntry."Cust. Ledger Entry No.");
+            CustEntryApply.Apply(CustLedgerEntry, SalesInvoiceHeader."No.", SalesInvoiceHeader."Posting Date");
+        until AppliedInvoiceEntry.Next() = 0;
+    end;
+
 }
